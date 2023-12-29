@@ -104,6 +104,10 @@ public class Adventurer extends Unit{
 	}
 	//포션사용
 	public void potionHealing() {
+		if(potion == 0) {
+			System.out.println("포션이없습니다...");
+			return;
+		}
 		potion -=1;
 		if(this.getHp() + 30 > this.getHpMax()) {
 			this.setHp(this.getHpMax());
@@ -230,7 +234,11 @@ public class Adventurer extends Unit{
 	}
 	// 회복 마법
 	private void skillHealing(int idx) {
-		this.setHp(this.getHp()+ this.skillList.get(idx).getHeailing());
+		if(this.getHp() + this.skillList.get(idx).getHeailing() > this.getHpMax()) {
+			this.setHp(this.getHpMax());
+		}else {
+			this.setHp(this.getHp() + this.skillList.get(idx).getHeailing());
+		}
 		System.out.println();
 		System.out.printf(Input.green + "회복마법 사용 체력이 %d 찹니다.%n" + Input.exit,this.skillList.get(idx).getHeailing());
 	}

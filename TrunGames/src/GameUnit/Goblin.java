@@ -2,7 +2,7 @@ package GameUnit;
 
 public class Goblin extends Monster {
 	public Goblin() {
-		super(10,10,1,"고블린",50,100);
+		super(15,11,2,"고블린",50,200);
 	}
 
 

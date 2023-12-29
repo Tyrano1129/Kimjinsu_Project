@@ -16,7 +16,7 @@ public class GameTitle implements Stage{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.printf("이동조작 %n %s%n(q)는 게임을 종료할수입니다.%n"
+		System.out.printf("이동조작 %n %s%n(q) 는 게임을 종료가 됩니다.%n"
 				+ "(e) 장비 착용과 장비 해제를 할수있습니다.%n",Input.getMenu());
 
 		try {

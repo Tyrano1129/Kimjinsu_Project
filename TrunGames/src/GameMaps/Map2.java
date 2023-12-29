@@ -1,5 +1,7 @@
 package GameMaps;
 
+import java.util.ArrayList;
+
 import game.Input;
 
 public class Map2 implements MapManager{
@@ -12,7 +14,6 @@ public class Map2 implements MapManager{
 			{11,0,9,0,0,0,0,33},
 			{9,9,9,9,9,9,9,9}
 	};
-
 	// 몬스터 있는지 없는지 체크
 	private static boolean checkMonster() {
 		for(int[] m : map) {
@@ -29,10 +30,14 @@ public class Map2 implements MapManager{
 		if(checkMonster()) {
 			return;
 		}
-		int num = Input.getRandomMenu(2)+1;
+		int num = Input.getRandomMenu(3)+1;
 		for(int i = 0; i < num;i+=1) {
 			int rdy = Input.getRandomMenu(map.length);
 			int rdx = Input.getRandomMenu(map[rdy].length);
+			if(map[rdy][rdx] == 9){
+				i-=1;
+				continue;
+			}
 			if(Input.checkidx(rdy,rdx,map)) {
 				map[rdy][rdx] = 4;
 			}else {

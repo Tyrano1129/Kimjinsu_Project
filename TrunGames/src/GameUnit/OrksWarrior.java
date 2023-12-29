@@ -3,7 +3,7 @@ package GameUnit;
 public class OrksWarrior extends Monster {
 
 	public OrksWarrior() {
-		super(18,17,4,"오크전사",120,400);
+		super(50,18,4,"오크전사",120,600);
 	}
 
 

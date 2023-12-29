@@ -23,6 +23,7 @@ public class Adventurer extends Unit{
 	}
 	
 	// 장비할때
+	
 	public void setTing(Item item) {
 		if(item instanceof Ring) {
 			if(ring != null) {

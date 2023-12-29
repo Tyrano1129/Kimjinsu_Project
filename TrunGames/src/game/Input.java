@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import item.Weapon;
 import stage.MyInven;
 
 public class Input{
+	private static int[][] monsterDir;
 	public static final String black = "\u001B[30m";
 	public static final String red = "\u001B[31m";
 	public static final String green = "\u001B[32m";
@@ -63,7 +65,8 @@ public class Input{
 				||map[y][x] == 4 
 				||map [y][x] == 2
 				||map [y][x] == 22
-				||map [y][x] == 11) {
+				||map [y][x] == 11
+				||map [y][x] == 99) {
 					return false;
 			}
 		}
@@ -81,6 +84,37 @@ public class Input{
 			 	,new Armor(0,6,5,"철값옷",1000)
 			 	,new Armor(2,5,2,"가시값옷",1200)));
 	 	shop.setItemList(itemList);
+	}
+
+	private static int resetMonsterCnt(int[][] map) {
+		int cnt = 0;
+		for(int i = 0; i < map.length; i+=1) {
+			for(int k = 0; k < map[i].length; k+=1) {
+				if(map[i][k] == 4) {
+					cnt+=1;
+				}
+			}
+		}
+		return cnt;
+	}
+
+	// 몬스터 위치 체크
+	public static int[][] mapMonsterDir(int[][] map) {
+		System.out.println(Arrays.deepToString(map));
+		if(resetMonsterCnt(map) == 0) {
+			return null;
+		}
+		monsterDir = new int[resetMonsterCnt(map)][2];
+		int idx = 0;
+		for(int i = 0; i < map.length; i+=1) {
+			for(int k = 0; k < map[i].length; k+=1) {
+				if(map[i][k] == 4) {
+					monsterDir[idx][0] = i;
+					monsterDir[idx++][1] = k;
+				}
+			}
+		}
+		return monsterDir;
 	}
 	public static String getMenu() {
 		return menu;

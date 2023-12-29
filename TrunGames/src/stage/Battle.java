@@ -5,14 +5,20 @@ import game.GameManager;
 import game.Input;
 
 public class Battle implements Stage{
-
+	private static int trun;
+	public static int getTrun() {
+		return trun;
+	}
+	public static void setTrun(int trun) {
+		Battle.trun = trun;
+	}
 	@Override
 	public void init(Adventurer hero,Monster monster) {
 		battleAttack(hero,monster);
 	}
 	public void battleAttack(Adventurer hero,Monster monster) {
 		System.out.printf("몬스터와 조우했습니다. %n%s와 전투가 시작됩니다.%n",monster.getName());
-		int trun = 1;
+		
 		while(true) {
 			if(trun == 1) {
 				int sel = Input.getValue("(1.공격하기) (2.방어하기) (3.포션사용)",1,3);

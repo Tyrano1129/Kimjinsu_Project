@@ -168,7 +168,7 @@ public class Adventurer extends Unit{
 	}
 	@Override
 	public void Defense(boolean defs) {
-		System.out.printf("%s가 방어했습니다.%n",this.getName());
+		System.out.printf("%s가 방어자세를 취했습니다.%n",this.getName());
 		this.setDefs(defs);
 	}
 	public Armor getArmro() {

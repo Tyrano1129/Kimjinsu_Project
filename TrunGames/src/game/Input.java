@@ -81,11 +81,11 @@ public class Input{
 			 	,new Weapon(6,0,3,"예리한검",900)
 			 	,new Weapon(10,3,2,"강력한검",1800)
 			 	,new Armor(0,3,0,"나무갑옷",500)
-			 	,new Armor(0,6,5,"철값옷",1000)
-			 	,new Armor(2,5,2,"가시값옷",1200)));
+			 	,new Armor(0,6,5,"철갑옷",1000)
+			 	,new Armor(2,5,2,"가시갑옷",1200)));
 	 	shop.setItemList(itemList);
 	}
-
+	//몬스터 갯수 확인
 	private static int resetMonsterCnt(int[][] map) {
 		int cnt = 0;
 		for(int i = 0; i < map.length; i+=1) {
@@ -100,7 +100,6 @@ public class Input{
 
 	// 몬스터 위치 체크
 	public static int[][] mapMonsterDir(int[][] map) {
-		System.out.println(Arrays.deepToString(map));
 		if(resetMonsterCnt(map) == 0) {
 			return null;
 		}

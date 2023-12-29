@@ -11,13 +11,14 @@ public class Move implements Stage{
 	private int x;
 	private int y;
 	private int[][] monsterDir;
+	private int[][] map;
 	//맵 위치 값
 	@Override
 	public void init() {
 		run();
 	}
 	//주인공 위치값
-	private void init(int[][] map) {
+	private void playerDir() {
 		for (int i = 0; i < map.length; i += 1) {
 			for (int k = 0; k < map[i].length; k += 1) {
 				if (map[i][k] == 1) {
@@ -28,7 +29,7 @@ public class Move implements Stage{
 		}
 	}
 	//맵 프린트
-	private void mapPrint(int[][] map) {
+	private void mapPrint() {
 		for (int i = 0; i < map.length; i += 1) {
 			for (int k = 0; k < map[i].length; k += 1) {
 				if (map[i][k] == 9) {
@@ -51,8 +52,101 @@ public class Move implements Stage{
 		}
 		System.out.println("========================================");
 	}
-	//움직임
-	private void gamePlay(int[][] map) {
+	// 플레이어 움직임
+	private boolean plyerMove() {
+		int px = x;
+		int py = y;
+		mapPrint();
+		System.out.println(UnitManager.getHero());
+		String sel = Input.getValueString(Input.getMenu());
+		if (sel.equals("a")) {
+			px -= 1;
+		} else if (sel.equals("s")) {
+			py += 1;
+		} else if (sel.equals("d")) {
+			px += 1;
+		} else if (sel.equals("w")) {
+			py -= 1;
+		} else if (sel.equals("q")) {
+			GameManager.setStageName("");
+			return false;
+		} else if (sel.equals("e")) {
+			GameManager.setStageName("INVENTORI");
+			return false;
+		}
+		try {
+			if (map[py][px] == 4) {
+				GameManager.setStageName("BATTLE");
+				map[y][x] = 0;
+				y = py;
+				x = px;
+				map[y][x] = 1;
+				Battle.setTrun(1);
+				return false;
+			}
+			if (map[py][px] == 9) {
+				return true;
+			}
+			if (map[py][px] == 3) {
+				MyInven.setMyinven(new BonusWeapon());
+				System.out.println(Input.green + "전설의 검을 획득하셨습니다!" + Input.exit);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			if (map[py][px] == 2) {
+				GameManager.setStageName("SHOPS");
+				return false;
+			}
+			if (Maps(map[py][px])) {
+				return false;
+			}
+			map[y][x] = 0;
+			y = py;
+			x = px;
+			map[y][x] = 1;
+		} catch (Exception e) {
+			System.out.println("더이상 이동 불가능합니다.");
+		}
+		return true;
+	}
+	// 몬스터 움직임
+	private boolean monsterMove() {
+		int[][] loc = Input.getLoc();
+		for (int i = 0; i < monsterDir.length; i += 1) {
+			int rd = Input.getRandomMenu(loc.length);
+			int xx = monsterDir[i][1];
+			int yy = monsterDir[i][0];
+			xx += loc[rd][0];
+			yy += loc[rd][1];
+			if (xx < 0 || xx > map[0].length || yy < 0 || yy > map.length) {
+				i -= 1;
+				continue;
+			}
+			if (map[yy][xx] == 9 || map[yy][xx] == 4 || map[yy][xx] == 2 || map[yy][xx] == 22 || map[yy][xx] == 11
+					|| map[yy][xx] == 99) {
+				i -= 1;
+				continue;
+			}
+			mapPrint();
+			if (map[yy][xx] == 1) {
+				GameManager.setStageName("BATTLE");
+				System.out.println("몬스터가 기습공격하였습니다.");
+				Battle.setTrun(2);
+				map[monsterDir[i][0]][monsterDir[i][1]] = 0;
+				return false;
+			}
+			map[monsterDir[i][0]][monsterDir[i][1]] = 0;
+			monsterDir[i][0] = yy;
+			monsterDir[i][1] = xx;
+			map[monsterDir[i][0]][monsterDir[i][1]] = 4;
+		}
+		return true;
+	}
+	// 몬스터와 플레이어 움직임 1턴씩
+	private void gamePlay() {
 		int trun = 1;
 		if(Input.mapMonsterDir(map) != null) {
 			monsterDir = Input.mapMonsterDir(map);		
@@ -61,96 +155,12 @@ public class Move implements Stage{
 		}
 		while(true) {
 			if(trun == 1) {
-				int px = x;
-				int py = y;
-				mapPrint(map);
-				System.out.println(UnitManager.getHero());
-				String sel = Input.getValueString(Input.getMenu());
-				if (sel.equals("a")) {
-					px -= 1;
-				} else if (sel.equals("s")) {
-					py += 1;
-				} else if (sel.equals("d")) {
-					px += 1;
-				} else if (sel.equals("w")) {
-					py -= 1;
-				} else if (sel.equals("q")) {
-					GameManager.setStageName("");
+				if(!plyerMove()) {
 					return;
-				} else if (sel.equals("e")) {
-					GameManager.setStageName("INVENTORI");
-					return;
-				}
-
-				try {
-					if (map[py][px] == 4) {
-						GameManager.setStageName("BATTLE");
-						map[y][x] = 0;
-						y = py;
-						x = px;
-						map[y][x] = 1;
-						Battle.setTrun(1);
-						return;
-					}
-					if (map[py][px] == 9) {
-						continue;
-					}
-					if (map[py][px] == 3) {
-						MyInven.setMyinven(new BonusWeapon());
-						System.out.println(Input.green + "전설의 검을 획득하셨습니다!" + Input.exit);
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					if (map[py][px] == 2) {
-						GameManager.setStageName("SHOPS");
-						return;
-					}
-					if (Maps(map[py][px])) {
-						return;
-					}
-					map[y][x] = 0;
-					y = py;
-					x = px;
-					map[y][x] = 1;
-				} catch (Exception e) {
-					System.out.println("더이상 이동 불가능합니다.");
 				}
 			}else if(trun ==2) {
-				int[][] loc = Input.getLoc();
-				for(int i = 0; i < monsterDir.length; i+=1) {
-					int rd = Input.getRandomMenu(loc.length);
-					int xx = monsterDir[i][1];
-					int yy = monsterDir[i][0];
-					xx += loc[rd][0];
-					yy += loc[rd][1];
-					if(xx < 0 || xx > map[0].length || yy < 0 || yy > map.length) {
-						i-=1;
-						continue;
-					}
-					if(map[yy][xx] == 9 
-							||map[yy][xx] == 4 
-							||map [yy][xx] == 2
-							||map [yy][xx] == 22
-							||map [yy][xx] == 11
-							||map [yy][xx] == 99) {
-						i-=1;
-						continue;
-					}
-					mapPrint(map);
-					if (map[yy][xx] == 1) {
-						GameManager.setStageName("BATTLE");
-						System.out.println("몬스터가 기습공격하였습니다.");
-						Battle.setTrun(2);
-						map[monsterDir[i][0]][monsterDir[i][1]] = 0;
-						return;
-					}
-					map[monsterDir[i][0]][monsterDir[i][1]] = 0;
-					monsterDir[i][0] = yy;
-					monsterDir[i][1] = xx;
-					map[monsterDir[i][0]][monsterDir[i][1]] = 4;
+				if(!monsterMove()) {
+					return;
 				}
 			}
 			if(monsterDir != null) {
@@ -158,22 +168,27 @@ public class Move implements Stage{
 			}
 		}
 	}
-
+	// 맵
 	public void run() {
 		if(Input.getMapCnt() == 1) {
-			init(Map1.getMap());
-			gamePlay(Map1.getMap());
+			map = Map1.getMap();
+			playerDir();
+			gamePlay();
 		}else if(Input.getMapCnt() == 2) {
-			init(Map2.getMap());
-			gamePlay(Map2.getMap());
+			map = Map2.getMap();
+			playerDir();
+			gamePlay();
 		}else if(Input.getMapCnt() == 3) {
-			init(Map3.getMap());
-			gamePlay(Map3.getMap());
+			map = Map3.getMap();
+			playerDir();
+			gamePlay();
 		}else if(Input.getMapCnt() == 99) {
-			init(MapSecret.getMap());
-			gamePlay(MapSecret.getMap());
+			map = MapSecret.getMap();
+			playerDir();
+			gamePlay();
 		}
 	}
+	// 맵이동
 	public boolean Maps(int move) {
 		if(move == 11) {
 			Map2.resetMap();

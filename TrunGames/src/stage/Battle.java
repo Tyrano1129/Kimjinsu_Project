@@ -1,7 +1,6 @@
 package stage;
 
-import GameUnit.Adventurer;
-import GameUnit.Monster;
+import GameUnit.*;
 import game.GameManager;
 import game.Input;
 
@@ -39,6 +38,12 @@ public class Battle implements Stage{
 			}
 			trun = trun == 1? 2 : 1;
 			if(monster.getHp() <= 0) {
+				if(monster instanceof OrksKing) {
+					System.out.println("던전의 보스를 처치했습니다!");
+					System.out.println("수고하셨습니다!");
+					GameManager.setStageName("");
+					return;
+				}
 				System.out.println("몬스터에게 승리했습니다!");
 				GameManager.setStageName("MOVE");
 				return;

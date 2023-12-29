@@ -9,7 +9,7 @@ public class GameTitle implements Stage{
 
 
 	private void title() {
-		String input = Input.getValueString("아무거나 입력해주세요.");
+		String input = Input.getValueString("아무거나 입력해주세요."+Input.green);
 		System.out.println("게임 실행...");
 		try {
 			Thread.sleep(1000);
@@ -24,8 +24,7 @@ public class GameTitle implements Stage{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("그럼 게임 시작하겠습니다 즐거운 모험 되시기바랍니다.");
-
+		System.out.println("그럼 게임 시작하겠습니다 즐거운 모험 되시기바랍니다." + Input.exit);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

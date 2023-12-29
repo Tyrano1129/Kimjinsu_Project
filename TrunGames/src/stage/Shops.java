@@ -36,14 +36,17 @@ public class Shops implements Stage {
 				List<Item> temp = shop.pringItemList(1);
 				int num = Input.getValue("번호 입력 :",1,shop.itemListSize())-1;
 				shop.prchase(temp, num,hero);
+				System.out.println("무기 구입하였습니다.");
 			}else if(sel == 2) {
 				List<Item> temp = shop.pringItemList(2);
 				int num = Input.getValue("번호 입력 :",1,shop.itemListSize())-1;
 				shop.prchase(temp, num,hero);
+				System.out.println("방어구 구입하였습니다.");
 			}else if(sel == 3) {
 				List<Item> temp = shop.pringItemList(3);
 				int num = Input.getValue("번호 입력 :",1,shop.itemListSize())-1;
 				shop.prchase(temp, num,hero);
+				System.out.println("반지 구입하였습니다.");
 			}else if(sel == 0) {
 				System.out.println("다음에 또만나요!");
 				GameManager.setStageName("MOVE");

@@ -4,10 +4,9 @@ import java.util.*;
 
 import GameMaps.Map1;
 import GameMaps.Map2;
+import GameMaps.Map3;
 import GameMaps.MapManager;
 import GameUnit.UnitManager;
-import item.Item;
-import item.Ring;
 import item.ShopDAO;
 import stage.*;
 
@@ -51,9 +50,10 @@ public class GameManager {
 			return new Map1();
 		}else if(Input.getMapCnt() == 2) {
 			return new Map2();
-		}else {
-			return null;
+		}else if(Input.getMapCnt() == 3){
+			return new Map3();
 		}
+		return null;
 	}
 	
 	public static String getStageName() {

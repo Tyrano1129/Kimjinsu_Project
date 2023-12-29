@@ -4,6 +4,7 @@ import java.util.*;
 import GameMaps.*;
 import GameUnit.*;
 import game.*;
+import item.BonusWeapon;
 import GameMaps.*;
 
 public class Move implements Stage{
@@ -32,11 +33,15 @@ public class Move implements Stage{
 				if (map[i][k] == 9) {
 					System.out.printf("%2s", "■");
 				}else if (map[i][k] == 1) {
-					System.out.printf("%2s", "q");
+					System.out.printf(Input.purple + "%2s" + Input.exit, "q");
 				} else if (map[i][k] == 2) {
-					System.out.printf("%2s", "p");
+					System.out.printf(Input.yellow + "%2s" + Input.exit, "p");
 				} else if (map[i][k] == 4) {
-					System.out.printf("%2s", "o");
+					System.out.printf(Input.red + "%2s" + Input.exit, "o");
+				} else if(map[i][k] == 99) {
+					System.out.printf(Input.cyan + "%2s" + Input.exit, "■");
+				} else if(map[i][k] == 3) {
+					System.out.printf(Input.white + "%2s" + Input.exit, "⌂");
 				} else {
 					System.out.printf("%2s", " ");
 				}
@@ -81,6 +86,15 @@ public class Move implements Stage{
 				if(map[py][px] == 9) {
 					continue;
 				}
+				if(map[py][px] == 3) {
+					MyInven.setMyinven(new BonusWeapon());
+					System.out.println(Input.green+"전설의 검을 획득하셨습니다!" +Input.exit);
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				if(map[py][px] == 2) {
 					GameManager.setStageName("SHOPS");
 					return;
@@ -105,6 +119,12 @@ public class Move implements Stage{
 		}else if(Input.getMapCnt() == 2) {
 			init(Map2.getMap());
 			gamePlay(Map2.getMap());
+		}else if(Input.getMapCnt() == 3) {
+			init(Map3.getMap());
+			gamePlay(Map3.getMap());
+		}else if(Input.getMapCnt() == 99) {
+			init(MapSecret.getMap());
+			gamePlay(MapSecret.getMap());
 		}
 	}
 	public boolean Maps(int move) {
@@ -116,6 +136,16 @@ public class Move implements Stage{
 		if(move == 22) {
 			Map1.resetMap();
 			Input.setMapCnt(2);
+			return true;
+		}
+		if(move == 33) {
+			Map2.resetMap();
+			Input.setMapCnt(3);
+			return true;
+		}
+		if(move == 99) {
+			Map2.resetMap();
+			Input.setMapCnt(99);
 			return true;
 		}
 		return false;

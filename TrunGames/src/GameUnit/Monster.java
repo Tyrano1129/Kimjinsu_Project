@@ -12,7 +12,7 @@ public class Monster extends Unit{
 	protected void attackMonster(Unit unit) {
 		int num = Input.getRandomMenu(10)+1;
 		if(num == 1) {
-			System.out.println("공격을 회피했습니다.");
+			System.out.println(Input.red+unit.getName()+"(가/이) 공격을 회피했습니다." + Input.exit);
 			miss = true;
 			return;
 		}
@@ -20,7 +20,7 @@ public class Monster extends Unit{
 			power /= 2;
 		}
 		if(power-(unit.getDef()/2) <= 0) {
-			System.out.println("공격을 방어했습니다..");
+			System.out.println(Input.blue + unit.getName()+"(가/이) 공격을 방어했습니다.."+ Input.exit);
 			miss = true;
 			return;
 		}else {
@@ -51,7 +51,7 @@ public class Monster extends Unit{
 
 	@Override
 	public String toString() {
-		return "%s [체력 : %d] [공격력 : %d] [방어력 : %d]".formatted(this.getName(),this.getHp(),this.getAtt(),this.getDef());
+		return Input.green + "%s [체력 : %d] [공격력 : %d] [방어력 : %d]".formatted(this.getName(),this.getHp(),this.getAtt(),this.getDef()) + Input.exit;
 	}
 
 

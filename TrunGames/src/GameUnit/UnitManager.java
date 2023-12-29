@@ -18,10 +18,13 @@ public class UnitManager {
 				int num = Input.getRandomMenu(mons.length);
 				Class<?> clazz = Class.forName(path + mons[num]);
 				Object obj = clazz.getDeclaredConstructor().newInstance();
-				if(map instanceof Map1) {
+				if(map instanceof Map1 || map instanceof Map2) {
 					if(obj instanceof OrksKing) {
 						continue;
 					}
+				}else {
+					clazz = Class.forName(path + "OrksKing");
+					obj = clazz.getDeclaredConstructor().newInstance();
 				}
 				temp = (Monster) obj;
 				break;

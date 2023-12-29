@@ -6,6 +6,7 @@ import game.Input;
 import item.*;
 
 public class Adventurer extends Unit{
+	  
 	private int power;
 	private boolean miss;
 	private int expMax;
@@ -89,26 +90,26 @@ public class Adventurer extends Unit{
 		}else {
 			this.setHp(this.getHp() + 30);
 		}
-		System.out.printf("회복약 사용 체력이 30 찹니다. (남은갯수  : %d)%n",potion);
+		System.out.printf(Input.green + "회복약 사용 체력이 30 찹니다. (남은갯수  : %d)%n" + Input.exit,potion);
 		System.out.println(this);
 	}
 	// 공격
 	private void attackHero(Unit unit) {
 		int num = Input.getRandomMenu(10)+1;
 		if(num == 1) {
-			System.out.println("공격을 회피했습니다.");
+			System.out.println(Input.red +unit.getName()+ "(가/이) 공격을 회피했습니다." + Input.exit);
 			miss = true;
 			return;
 		}
 		if(num == 2) {
-			System.out.println("크리티컬!!");
+			System.out.println(Input.red + "크리티컬!!!!!!!!!!" + Input.exit);
 			power *= 2;
 		}
 		if(unit.getDefs()) {
 			power /= 2;
 		}
 		if(power-(unit.getDef()/2) <= 0) {
-			System.out.println("공격을 방어했습니다.");
+			System.out.println(Input.blue+"(가/이) 공격을 방어했습니다."+Input.exit);
 			miss = true;
 		}else {
 			unit.setHp(unit.getHp() - (power-(unit.getDef()/2)));

@@ -9,22 +9,22 @@ import stage.*;
 public class ShopDAO {
 	private static ShopDAO instance = new ShopDAO();
 	private List<Item> itemList;
+	private List<MagicBook> magicList;
 	
 	public static ShopDAO getInstance() {
 		return instance;
 	}
-	public static void setInstance(ShopDAO instance) {
-		ShopDAO.instance = instance;
+	public void setMagicList(List<MagicBook> magicList) {
+		this.magicList = magicList;
 	}
 	public int itemListSize() {
 		return itemList.size();
 	}
-	
-	public List<Item> getItemList() {
-		return itemList;
-	}
 	public void setItemList(List<Item> itemList) {
 		this.itemList = itemList;
+	}
+	public int magicListSize() {
+		return this.magicList.size();
 	}
 	
 	public ShopDAO() {
@@ -50,5 +50,24 @@ public class ShopDAO {
 		}
 		hero.setGold(hero.getGold()-temp.get(num).getPrice());
 		MyInven.setMyinven(temp.get(num));
+	}
+	// 매직북 구매
+	public void prchaseMagicBook(List<MagicBook> temp,int num,Adventurer hero) {
+		if(hero.getGold() < temp.get(num).getPrice()) {
+			System.out.println("골드가 부족해요!");
+			return;
+		}
+		hero.setGold(hero.getGold()-temp.get(num).getPrice());
+		hero.setSkillList(temp.get(num));
+	}
+	//매직북 출력 가지고오기
+	public List<MagicBook> magicBookPrint() {
+		List<MagicBook> temp = new ArrayList<>();
+		temp = magicList.stream().collect(Collectors.toList());
+		int num = 1;
+		for (MagicBook i : temp) {
+			System.out.printf("[%d] %s%n", num++, i, i.getPrice());
+		}
+		return temp;
 	}
 }

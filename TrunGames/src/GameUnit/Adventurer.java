@@ -1,5 +1,7 @@
 package GameUnit;
 
+import java.util.ArrayList;
+import java.util.*;
 import java.util.Objects;
 
 import game.Input;
@@ -15,11 +17,28 @@ public class Adventurer extends Unit{
 	private Ring ring;
 	private Weapon weapon;
 	private int potion;
+	private List<MagicBook> skillList;
+	
+	public List<MagicBook> getSkillList() {
+		return skillList;
+	}
+
+	public void setSkillList(MagicBook skillList) {
+		this.skillList.add(skillList);
+	}
+	public int skillListSize() {
+		return this.skillList.size();
+	}
+	private int mana;
+	private int manaMax;
 	public Adventurer(int hp, int att, int def,String name) {
-		super(hp,hp,att,def,name,0,1000);
+		super(hp,att,def,name,0,1000);
 		this.level = 1;
 		this.expMax = level * 100;
 		this.potion = 5;
+		this.mana = 50;
+		this.manaMax = 50;
+		skillList = new ArrayList<>();
 	}
 	
 	// 장비할때
@@ -153,8 +172,8 @@ public class Adventurer extends Unit{
 	}
 	@Override
 	public String toString() {
-		String data = String.format("[체력 : %d / %d] [공격력 : %d] [방어력 : %d] %n[레벨 : %d] [경험치 : %d / %d] %n[골드 : %d]",
-				this.getHp(),this.getHpMax(),this.getAtt(),this.getDef(),this.level,this.getExp(),this.expMax,this.getGold());
+		String data = String.format("[체력 : %d / %d] [마나 : %d / %d] [공격력 : %d] [방어력 : %d] %n[레벨 : %d] [경험치 : %d / %d]%n[골드 : %d]",
+				this.getHp(),this.getHpMax(),this.mana,this.manaMax,this.getAtt(),this.getDef(),this.level,this.getExp(),this.expMax,this.getGold());
 		if(this.weapon != null) {
 			data +="%n[무기 : %s]".formatted(weapon.getName());
 		}
@@ -171,6 +190,50 @@ public class Adventurer extends Unit{
 		System.out.printf("%s가 방어자세를 취했습니다.%n",this.getName());
 		this.setDefs(defs);
 	}
+
+	// 스킬 리스트
+	public boolean skillBook() {
+		if(skillList.size() == 0) {
+			System.out.println("가지고있는 스킬북이없습니다.");
+			return false;
+		}
+		skillList.stream()
+				.forEach(s -> {System.out.println(s);});
+		return true;
+	}
+	// 스킬 사용
+	public void skillUse(Unit unit,int idx) {
+		if(this.mana < 0 || this.getMana() < this.skillList.get(idx).getMana()) {
+			System.out.println("사용할 마나가 부족합니다.");
+			return;
+		}
+		// 회복마법
+		if(this.skillList.get(idx).getName().equals("힐링")) {
+			this.setMana(this.getMana() - this.skillList.get(idx).getMana());
+			skillHealing(idx);
+			return;
+		}
+		// 스킬 딜은 고정딜로 들어갑니다.
+		unit.setHp(unit.getHp() - this.skillList.get(idx).getAtt());
+		this.setMana(this.getMana() - this.skillList.get(idx).getMana());
+		if(unit.getHp() <= 0) {
+			unit.setHp(0);
+			System.out.printf("%s가 %s 에게 %s 마법을 사용하여 %d 를 입혔습니다.%n",super.getName(),unit.getName(),
+					this.skillList.get(idx).getName(),this.skillList.get(idx).getAtt());
+			goldexpUp(unit);
+		}else if(unit.getHp() >= 0){
+			System.out.printf("%s가 %s 에게 %s 마법을 사용하여 %d 를 입혔습니다.%n",super.getName(),unit.getName(),
+					this.skillList.get(idx).getName(),this.skillList.get(idx).getAtt());
+		}
+		System.out.println(unit);
+		System.out.println("========================================");
+	}
+	// 회복 마법
+	private void skillHealing(int idx) {
+		this.setHp(this.getHp()+ this.skillList.get(idx).getHeailing());
+		System.out.println();
+		System.out.printf(Input.green + "회복마법 사용 체력이 %d 찹니다.%n" + Input.exit,this.skillList.get(idx).getHeailing());
+	}
 	public Armor getArmro() {
 		return armro;
 	}
@@ -186,8 +249,43 @@ public class Adventurer extends Unit{
 	public Weapon getWeapon() {
 		return weapon;
 	}
+	public int getPotion() {
+		return potion;
+	}
+
+	public int getMana() {
+		return mana;
+	}
+
+	public void setMana(int mana) {
+		this.mana = mana;
+	}
+	public void setPotion(int potion) {
+		this.potion = potion;
+	}
+
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
+	}
+
+	public int getManaMax() {
+		return manaMax;
+	}
+
+	public void setManaMax(int manaMax) {
+		this.manaMax = manaMax;
+	}
+
+	@Override
+	public void Debuff(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void debuffCnt(Unit unit) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

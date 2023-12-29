@@ -6,7 +6,7 @@ public class Monster extends Unit{
 	protected int power;
 	protected boolean miss;
 	public Monster(int hp, int att, int def, String name,int exp,int gold) {
-		super(hp, hp, att, def, name,exp,gold);
+		super(hp, att, def, name,exp,gold);
 	}
 	
 	protected void attackMonster(Unit unit) {
@@ -53,6 +53,19 @@ public class Monster extends Unit{
 	public String toString() {
 		return Input.green + "%s [체력 : %d] [공격력 : %d] [방어력 : %d]".formatted(this.getName(),this.getHp(),this.getAtt(),this.getDef()) + Input.exit;
 	}
+
+	@Override
+	public void Debuff(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void debuffCnt(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

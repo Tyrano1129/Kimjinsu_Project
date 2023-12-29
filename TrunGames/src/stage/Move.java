@@ -1,11 +1,9 @@
 package stage;
 
-import java.util.*;
 import GameMaps.*;
 import GameUnit.*;
 import game.*;
 import item.BonusWeapon;
-import GameMaps.*;
 
 public class Move implements Stage{
 	private int x;
@@ -17,7 +15,7 @@ public class Move implements Stage{
 	public void init() {
 		run();
 	}
-	//주인공 위치값
+	//플레이어 위치
 	private void playerDir() {
 		for (int i = 0; i < map.length; i += 1) {
 			for (int k = 0; k < map[i].length; k += 1) {
@@ -34,7 +32,7 @@ public class Move implements Stage{
 			for (int k = 0; k < map[i].length; k += 1) {
 				if (map[i][k] == 9) {
 					System.out.printf("%2s", "■");
-				}else if (map[i][k] == 1) {
+				} else if (map[i][k] == 1) {
 					System.out.printf(Input.purple + "%2s" + Input.exit, "q");
 				} else if (map[i][k] == 2) {
 					System.out.printf(Input.yellow + "%2s" + Input.exit, "p");
@@ -102,6 +100,11 @@ public class Move implements Stage{
 			}
 			if (Maps(map[py][px])) {
 				return false;
+			}
+			//움직일때마다 마나 2씩채우기
+			UnitManager.getHero().setMana(UnitManager.getHero().getMana() + 2);
+			if (UnitManager.getHero().getMana() > UnitManager.getHero().getManaMax()) {
+				UnitManager.getHero().setMana(UnitManager.getHero().getManaMax());
 			}
 			map[y][x] = 0;
 			y = py;

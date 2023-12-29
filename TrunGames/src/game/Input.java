@@ -11,6 +11,7 @@ import GameUnit.Adventurer;
 import item.Armor;
 import item.BonusWeapon;
 import item.Item;
+import item.MagicBook;
 import item.Ring;
 import item.ShopDAO;
 import item.Weapon;
@@ -72,7 +73,7 @@ public class Input{
 		}
 		return true;
 	}
-	public static void init(ShopDAO shop) {
+	public static void init(ShopDAO shop, ArrayList<MagicBook> book) {
 	 List<Item> itemList = new LinkedList<>(Arrays.asList(
 				new Ring(3,0,0,"철반지",500)
 				,new Ring(0,2,10,"루비반지",800)
@@ -84,6 +85,7 @@ public class Input{
 			 	,new Armor(0,6,5,"철갑옷",1000)
 			 	,new Armor(2,5,2,"가시갑옷",1200)));
 	 	shop.setItemList(itemList);
+	 	shop.setMagicList(book);
 	}
 	//몬스터 갯수 확인
 	private static int resetMonsterCnt(int[][] map) {

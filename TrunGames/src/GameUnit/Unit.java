@@ -1,9 +1,10 @@
 package GameUnit;
 
 import game.Attacker;
+import game.Debuff;
 import game.Defense;
 
-public abstract class Unit implements Attacker,Defense{
+public abstract class Unit implements Attacker,Defense,Debuff{
 	private String name;
 	private int hp;
 	private int hpMax;
@@ -12,13 +13,13 @@ public abstract class Unit implements Attacker,Defense{
 	private boolean defs;
 	private int exp;
 	private int gold;
-	
-	public Unit(int hp, int hpMax, int att, int def,String name,int exp,int gold) {
+	private int debuff;
+	public Unit(int hp, int att, int def,String name,int exp,int gold) {
 		this.name = name;
 		this.hp = hp;
-		this.hpMax = hpMax;
-		this.att = att;
 		this.def = def;
+		this.hpMax = hp;
+		this.att = att;
 		this.exp = exp;
 		this.gold = gold;
 	}
@@ -82,5 +83,12 @@ public abstract class Unit implements Attacker,Defense{
 	public void setExp(int exp) {
 		this.exp = exp;
 	}
-	
+	public int getDebuff() {
+		return debuff;
+	}
+
+	public void setDebuff(int debuff) {
+		this.debuff = debuff;
+	}
+
 }

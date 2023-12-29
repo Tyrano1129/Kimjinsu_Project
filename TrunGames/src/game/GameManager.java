@@ -7,6 +7,7 @@ import GameMaps.Map2;
 import GameMaps.Map3;
 import GameMaps.MapManager;
 import GameUnit.UnitManager;
+import item.MagicBook;
 import item.ShopDAO;
 import stage.*;
 
@@ -17,7 +18,7 @@ public class GameManager {
 	
 	//초기값 스테이지
 	public GameManager(){
-		Input.init(ShopDAO.getInstance());
+		Input.init(ShopDAO.getInstance(),MagicBook.getInstance());
 		stageList.put("MOVE",new Move());
 		stageList.put("BATTLE",new Battle());
 		stageList.put("INVENTORI",new MyInven());

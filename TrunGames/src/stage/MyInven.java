@@ -15,7 +15,6 @@ public class MyInven implements Stage {
 	public List<Item> getMyinven() {
 		return myinven;
 	}
-
 	public static void setMyinven(Item inven) {
 		MyInven.myinven.add(inven);
 	}

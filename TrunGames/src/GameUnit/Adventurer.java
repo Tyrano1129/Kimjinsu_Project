@@ -201,8 +201,9 @@ public class Adventurer extends Unit{
 			System.out.println("가지고있는 스킬북이없습니다.");
 			return false;
 		}
-		skillList.stream()
-				.forEach(s -> {System.out.println(s);});
+		for(int i =0; i < skillList.size(); i+=1) {
+			System.out.println(skillList.get(i));
+		}
 		return true;
 	}
 	// 스킬 사용
